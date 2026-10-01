@@ -1,0 +1,41 @@
+export function Logo({
+  size = 40,
+  className,
+}: {
+  size?: number
+  className?: string
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 120 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <rect width="120" height="120" rx="28" fill="#059669" />
+      <circle cx="60" cy="60" r="46" fill="#10B981" opacity="0.4" />
+      {/* Coffee cup outline & steam */}
+      <path d="M42 62C42 72 50 78 60 78C70 78 78 72 78 62V48H42V62Z" fill="white" />
+      <path
+        d="M78 52H84C87.3137 52 90 54.6863 90 58C90 61.3137 87.3137 64 84 64H78V52Z"
+        stroke="white"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      {/* Sparkle / Clean stars */}
+      <path
+        d="M60 32L62.5 38.5L69 41L62.5 43.5L60 50L57.5 43.5L51 41L57.5 38.5L60 32Z"
+        fill="#FDE68A"
+      />
+      <path
+        d="M38 38L39.5 42L43.5 43.5L39.5 45L38 49L36.5 45L32.5 43.5L36.5 42L38 38Z"
+        fill="#6EE7B7"
+      />
+      {/* Liquid / Leaf accent */}
+      <path d="M54 84C60 88 66 84 66 84" stroke="white" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  )
+}
