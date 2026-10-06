@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/shared/PageHeader"
 import { CategoriesJumpNav } from "@/components/shared/CategoriesJumpNav"
 import { CategoryPill } from "@/components/shared/CategoryPill"
 import { FLOORS, CATEGORY_META } from "@/lib/constants"
+import { ASEO_STAFF } from "@/lib/staff"
 import type { Category, Product } from "@/lib/types"
 import { Coffee, Droplets, Search } from "lucide-react"
 
@@ -17,6 +18,8 @@ export default function PedidoForm() {
   const crear = useCrearOrden()
 
   const [name, setName] = useState(profile?.full_name ?? "")
+  const [staffQuery, setStaffQuery] = useState("")
+  const [staffOpen, setStaffOpen] = useState(false)
   const [piso, setPiso] = useState(profile?.piso ?? "")
   const [qty, setQty] = useState<Record<string, number>>({})
   const [search, setSearch] = useState("")
@@ -38,6 +41,16 @@ export default function PedidoForm() {
   const selectedItems = (products ?? []).filter((p) => (qty[p.id] ?? 0) > 0)
   const selectedIn = (category: Category) =>
     selectedItems.filter((p) => p.category === category)
+
+  const staffResults = useMemo(() => {
+    const q = staffQuery.trim().toLowerCase()
+    if (!q) return ASEO_STAFF
+    return ASEO_STAFF.filter(
+      (s) =>
+        s.nombre.toLowerCase().includes(q) ||
+        s.cedula.includes(q.replace(/\D/g, "") || q)
+    ).slice(0, 8)
+  }, [staffQuery])
 
   function update(p: Product, v: number) {
     setQty((prev) => ({ ...prev, [p.id]: v }))
@@ -84,14 +97,51 @@ export default function PedidoForm() {
       {/* Quién solicita */}
       <section className="rounded-2xl bg-white p-4 ring-1 ring-border/70 sm:p-5">
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-1.5">
+          <div className="relative space-y-1.5">
             <label className="text-xs font-bold text-muted-foreground">Nombre</label>
             <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Tu nombre completo"
+              value={staffOpen ? staffQuery : name}
+              onFocus={() => {
+                setStaffOpen(true)
+                setStaffQuery(name ? "" : staffQuery)
+              }}
+              onChange={(e) => {
+                setStaffQuery(e.target.value)
+                setStaffOpen(true)
+                if (!e.target.value) setName("")
+              }}
+              onBlur={() => window.setTimeout(() => setStaffOpen(false), 150)}
+              placeholder="Busca por nombre o cédula…"
               className="h-12 w-full rounded-xl border border-input bg-white px-3.5 text-[15px] outline-none focus:border-ani-primary focus:ring-3 focus:ring-ani-primary/15 sm:h-11 sm:text-sm"
             />
+            {staffOpen && (
+              <ul className="absolute z-30 mt-1 max-h-64 w-full overflow-y-auto rounded-xl border border-border bg-white shadow-xl">
+                {staffResults.length === 0 ? (
+                  <li className="px-4 py-3 text-sm text-muted-foreground">
+                    Sin resultados.
+                  </li>
+                ) : (
+                  staffResults.map((s) => (
+                    <li key={s.cedula}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setName(s.nombre)
+                          setStaffQuery("")
+                          setStaffOpen(false)
+                        }}
+                        className="flex w-full items-baseline justify-between gap-3 px-4 py-3 text-left hover:bg-ani-surface-container-low"
+                      >
+                        <span className="truncate text-[14px] font-semibold">{s.nombre}</span>
+                        <span className="shrink-0 text-xs font-semibold text-muted-foreground">
+                          {s.cedula}
+                        </span>
+                      </button>
+                    </li>
+                  ))
+                )}
+              </ul>
+            )}
           </div>
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-muted-foreground">Piso</label>

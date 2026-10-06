@@ -1,7 +1,7 @@
 export const APP_NAME = "ANISTOCK"
 export const APP_TAGLINE = "Suministros y Servicios"
 
-export const FLOORS = ["Piso 1", "Piso 2", "Piso 3", "Piso 4", "Piso 5", "Piso 6"]
+export const FLOORS = ["Piso 2", "Piso 6", "Piso 7", "Piso 8"]
 
 export const CATEGORY_META = {
   cafeteria: { label: "Cafetería", color: "#825100", soft: "#fef1dd" },

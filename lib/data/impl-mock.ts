@@ -38,8 +38,8 @@ export const MOCK_PRODUCTS: Product[] = [
   { id: "a12", name: "Bolsa de basura", category: "aseo", unit: "paquete", active: true },
 ]
 
-const NAMES = ["María López", "Carlos Pérez", "Laura Gómez", "Andrés Ruiz", "Paola Torres"]
-const FLOORS = ["Piso 1", "Piso 2", "Piso 3", "Piso 4", "Piso 5", "Piso 6"]
+const NAMES = ["MORALES RODRIGUEZ MARIA EMILSE", "GONZALEZ PIEDRAHITA DIANA PAOLA", "VALDERRAMA ALBARRACIN NERY SORAIDA", "POLO CARDENAS LOREYDY ASTRID", "URBINA BATISTA LUISANA MARIA"]
+const FLOORS = ["Piso 2", "Piso 6", "Piso 7", "Piso 8"]
 const C_IDS = ["c1", "c2", "c3", "c5", "c6", "c8"]
 const A_IDS = ["a1", "a2", "a3", "a5", "a6", "a12"]
 
@@ -96,7 +96,7 @@ export function makeMockRepo() {
     },
     async getProfile(userId: string): Promise<Profile | null> {
       if (userId === "solicitante") {
-        return { id: userId, full_name: "María López", role: "solicitante", piso: "Piso 3", active: true, created_at: new Date().toISOString() }
+        return { id: userId, full_name: "MORALES RODRIGUEZ MARIA EMILSE", role: "solicitante", piso: "Piso 2", active: true, created_at: new Date().toISOString() }
       }
       if (userId === "supervisor") {
         return { id: userId, full_name: "Jorge Contreras", role: "supervisor", piso: null, active: true, created_at: new Date().toISOString() }
